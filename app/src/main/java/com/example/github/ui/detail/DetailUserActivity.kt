@@ -1,12 +1,21 @@
 package com.example.github.ui.detail
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.github.R
+import com.example.github.api.RetrofitClient
+import com.example.github.data.model.DetailUserResponse
 import com.example.github.databinding.ActivityDetailUserBinding
 import com.example.github.ui.repo.ReposSearchFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DetailUserActivity : AppCompatActivity() {
 
@@ -31,9 +40,9 @@ class DetailUserActivity : AppCompatActivity() {
             ViewModelProvider.NewInstanceFactory()
         ).get(DetailUserViewModel::class.java)
 
-        if (username != null) {
+        if (username != null)
             viewModel.setUserDetail(username)
-        }
+
         viewModel.getUserDetail().observe(this, {
             if (it != null) {
                 binding.apply {
@@ -54,9 +63,10 @@ class DetailUserActivity : AppCompatActivity() {
         })
     }
 
-    fun getUserCurrentName(): String {
-        return viewModel.getUserDetail().observe(this, {
-            it.login
-        }).toString()
+    fun getCurrentUserName(): String{
+
+    val textView: TextView = findViewById(R.id.tv_username) as TextView
+        return textView.text.toString()
     }
+
 }

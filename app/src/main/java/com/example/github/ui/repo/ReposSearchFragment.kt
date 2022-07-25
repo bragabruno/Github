@@ -1,15 +1,11 @@
 package com.example.github.ui.repo
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.github.R
-import com.example.github.data.model.Repo
 import com.example.github.databinding.FragmentReposSearchBinding
 import com.example.github.ui.detail.DetailUserActivity
 
@@ -27,12 +23,12 @@ class ReposSearchFragment : Fragment(R.layout.fragment_repos_search) {
         adapter = RepoAdapter()
         adapter.notifyDataSetChanged()
 
-        adapter.setOnItemClickCallback(object : RepoAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Repo) {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
-                startActivity(browserIntent)
-            }
-        })
+//        adapter.setOnItemClickCallback(object : RepoAdapter.OnItemClickCallback {
+//            override fun onItemClicked(data: Repo) {
+//                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+//                startActivity(browserIntent)
+//            }
+//        })
         repoViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(RepoViewModel::class.java)
 
         binding.apply {
@@ -40,9 +36,13 @@ class ReposSearchFragment : Fragment(R.layout.fragment_repos_search) {
             rvRepos.setHasFixedSize(true)
             rvRepos.adapter = adapter
 
+//            if (userActivity.isNotEmpty()) {
+            userRepos()
+//            }
 
-
-            etQuery.doAfterTextChanged { searchRepo() }
+//            if (etQuery.text?.isNotEmpty() == true) {
+//                etQuery.doAfterTextChanged { searchRepo() }
+//            }
         }
         repoViewModel.getUserRepos().observe(viewLifecycleOwner, {
             if (it != null) {
@@ -52,28 +52,33 @@ class ReposSearchFragment : Fragment(R.layout.fragment_repos_search) {
         })
     }
 
-    private fun userRepo() {
+    fun userRepos() {
         val activity = getActivity() as DetailUserActivity
-        val userActivity: String = activity.getUserCurrentName()
+        val userActivity: String = activity.getCurrentUserName()
         binding.apply {
             val username = userActivity
-            if (username.isEmpty()) {
-                return showLoading(true)
-            }
+            if (username.isEmpty()) return
+            showLoading(true)
             repoViewModel.setUserRepos(username)
         }
     }
 
-    private fun searchRepo() {
-        binding.apply {
-            val repoSearch = etQuery.text.toString()
-            if (repoSearch.isEmpty()) {
-                return showLoading(true)
-            }
-            userRepo()
-        }
-    }
-
+//    fun searchRepo() {
+//        binding.apply {
+//            val username = etQuery.text.toString()
+//            if (username.isEmpty()) return
+//            showLoading(true)
+//            repoViewModel.setUserRepos(username)
+//        }
+//    }
+// private fun searchRepo() {
+//        binding.apply {
+//            val repoSearch = etQuery.text.toString()
+//            if (repoSearch.isEmpty()) {
+//                return showLoading(true)
+//            }
+//        }
+//    }
 
     private fun showLoading(state: Boolean) {
         if (state) {
@@ -82,5 +87,4 @@ class ReposSearchFragment : Fragment(R.layout.fragment_repos_search) {
             binding.progressBar.visibility = View.GONE
         }
     }
-
 }

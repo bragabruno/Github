@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".ui.detail.DetailUserActivity">
+
+  <ImageView
+    android:id="@+id/iv_user"
+    android:layout_width="132dp"
+    android:layout_height="132dp"
+    android:layout_marginTop="32dp"
+    app:layout_constraintEnd_toStartOf="@+id/tv_username"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+
+  <TextView
+    android:id="@+id/tv_username"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:textSize="14dp"
+    app:layout_constraintBottom_toTopOf="@+id/tv_email"
+    app:layout_constraintStart_toEndOf="@+id/iv_user"
+    app:layout_constraintTop_toTopOf="@+id/iv_user"
+    app:layout_constraintVertical_chainStyle="spread"
+    tools:text="TextView" />
+
+  <TextView
+    android:id="@+id/tv_email"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginStart="16dp"
+    android:textSize="14sp"
+    app:layout_constraintStart_toEndOf="@+id/iv_user"
+    app:layout_constraintTop_toBottomOf="@+id/tv_username"
+    tools:text="TextView" />
+
+  <TextView
+    android:id="@+id/tv_location"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginStart="16dp"
+    android:textSize="14sp"
+    app:layout_constraintStart_toEndOf="@+id/iv_user"
+    app:layout_constraintTop_toBottomOf="@+id/tv_email"
+    tools:text="TextView" />
+
+  <TextView
+    android:id="@+id/tv_join_date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginStart="16dp"
+    android:textSize="14sp"
+    app:layout_constraintStart_toEndOf="@+id/iv_user"
+    app:layout_constraintTop_toBottomOf="@+id/tv_location"
+    tools:text="TextView" />
+
+  <TextView
+    android:id="@+id/tv_followers"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginStart="16dp"
+    android:textSize="14sp"
+    app:layout_constraintStart_toEndOf="@+id/iv_user"
+    app:layout_constraintTop_toBottomOf="@+id/tv_join_date"
+    tools:text="TextView" />
+
+  <TextView
+    android:id="@+id/tv_following"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginStart="16dp"
+    android:textSize="14sp"
+    app:layout_constraintBottom_toBottomOf="@+id/iv_user"
+    app:layout_constraintStart_toEndOf="@+id/iv_user"
+    app:layout_constraintTop_toBottomOf="@+id/tv_followers"
+    tools:text="TextView" />
+
+
+  <TextView
+    android:id="@+id/tv_bio"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:textSize="14sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/iv_user"
+    tools:text="TextView" />
+
+  <FrameLayout
+    android:id="@+id/fl_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginTop="16dp"
+    android:layout_gravity="bottom"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tv_bio" >
+
+    <androidx.fragment.app.FragmentContainerView
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/fragment_container_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:name="com.example.github.ui.repo.ReposSearchFragment"/>
+
+  </FrameLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

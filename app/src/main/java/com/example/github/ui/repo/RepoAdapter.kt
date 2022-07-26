@@ -2,20 +2,22 @@ package com.example.github.ui.repo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.github.data.model.Repo
+import com.example.github.data.model.RepoResponse
 import com.example.github.databinding.ItemReposBinding
 
 class RepoAdapter : RecyclerView.Adapter<RepoAdapter.RepoViewHolder>() {
 
-    private val listRepoData = ArrayList<Repo>()
+    private var listRepoData = ArrayList<Repo>()
     private var onItemClickCallback: OnItemClickCallback? = null
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
     }
 
-    fun setList(repos: ArrayList<Repo>) {
+    fun setList(repos: List<Repo>) {
         listRepoData.clear()
         listRepoData.addAll(repos)
         notifyDataSetChanged()

@@ -1,6 +1,7 @@
 package com.example.github.api
 
 import com.example.github.data.model.DetailUserResponse
+import com.example.github.data.model.Repo
 import com.example.github.data.model.RepoResponse
 import com.example.github.data.model.UserResponse
 import retrofit2.Call

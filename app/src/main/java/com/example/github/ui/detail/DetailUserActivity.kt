@@ -1,21 +1,14 @@
 package com.example.github.ui.detail
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.github.R
-import com.example.github.api.RetrofitClient
-import com.example.github.data.model.DetailUserResponse
 import com.example.github.databinding.ActivityDetailUserBinding
-import com.example.github.ui.repo.ReposSearchFragment
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.github.ui.repo.RepoAdapter
 
 class DetailUserActivity : AppCompatActivity() {
 
@@ -23,29 +16,34 @@ class DetailUserActivity : AppCompatActivity() {
         const val EXTRA_USERNAME = "extra_username"
     }
 
-    private lateinit var binding: ActivityDetailUserBinding
-    private lateinit var viewModel: DetailUserViewModel
-    private val reposSearchFragment = ReposSearchFragment()
+    private lateinit var activituDetailUserBinding: ActivityDetailUserBinding
+    private lateinit var detailUserViewModel: DetailUserViewModel
+    private lateinit var repoAdapter: RepoAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        reposSearchFragment
-        binding = ActivityDetailUserBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        activituDetailUserBinding = ActivityDetailUserBinding.inflate(layoutInflater)
+        setContentView(activituDetailUserBinding.root)
 
-        val username = intent.getStringExtra(EXTRA_USERNAME)
+        repoAdapter = RepoAdapter()
+        repoAdapter.notifyDataSetChanged()
 
-        viewModel = ViewModelProvider(
+        val username = intent.getStringExtra(EXTRA_USERNAME)!!
+
+
+//        username.let { updateuserRepos(it) }
+
+        detailUserViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
         ).get(DetailUserViewModel::class.java)
 
-        if (username != null)
-            viewModel.setUserDetail(username)
+        detailUserViewModel.setUserDetail(username)
 
-        viewModel.getUserDetail().observe(this, {
+        detailUserViewModel.getUserDetail().observe(this, {
             if (it != null) {
-                binding.apply {
+                activituDetailUserBinding.apply {
                     tvUsername.text = it.login
                     tvBio.text = it.bio
                     tvEmail.text = it.email
@@ -61,12 +59,54 @@ class DetailUserActivity : AppCompatActivity() {
                 }
             }
         })
+        updateRepoList(username)
     }
 
-    fun getCurrentUserName(): String{
+    fun updateRepoList(username: String) {
 
-    val textView: TextView = findViewById(R.id.tv_username) as TextView
-        return textView.text.toString()
+
+//        repoAdapter.setOnItemClickCallback(object : RepoAdapter.OnItemClickCallback {
+//            override fun onItemClicked(data: Repo) {
+//                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+//                startActivity(browserIntent)
+//            }
+//        })
+
+        activituDetailUserBinding.apply {
+            rvRepos.layoutManager = LinearLayoutManager(this@DetailUserActivity)
+            rvRepos.setHasFixedSize(true)
+            rvRepos.adapter = repoAdapter
+
+            btnSearch.setOnClickListener {
+                searchUserRepos(username)
+            }
+            searchUserRepos(username)
+//            etQuery.doAfterTextChanged {
+//                val list: List<Repo> = listRepos.filter { repo -> repo.name.contains(activituDetailUserBinding.etQuery.text.toString()) }
+//                if (it != null) {
+//                    repoAdapter.setList(list)
+//                }
+//            }
+        }
+        detailUserViewModel.getUserRepos().observe(this, {
+            repoAdapter.setList(it)
+            showLoading(false)
+        })
     }
 
+    fun searchUserRepos(username: String) {
+        activituDetailUserBinding.apply {
+            if (username.isEmpty()) return
+            showLoading(true)
+            detailUserViewModel.setUserRepos(username)
+        }
+    }
+
+    private fun showLoading(state: Boolean) {
+        if (state) {
+            activituDetailUserBinding.progressBar.visibility = View.VISIBLE
+        } else {
+            activituDetailUserBinding.progressBar.visibility = View.GONE
+        }
+    }
 }

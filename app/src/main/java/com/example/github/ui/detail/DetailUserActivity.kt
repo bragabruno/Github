@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.github.data.model.DetailUserViewModel
 import com.example.github.databinding.ActivityDetailUserBinding
 import com.example.github.ui.repo.RepoAdapter
 
@@ -20,7 +21,6 @@ class DetailUserActivity : AppCompatActivity() {
     private lateinit var detailUserViewModel: DetailUserViewModel
     private lateinit var repoAdapter: RepoAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activituDetailUserBinding = ActivityDetailUserBinding.inflate(layoutInflater)
@@ -30,7 +30,6 @@ class DetailUserActivity : AppCompatActivity() {
         repoAdapter.notifyDataSetChanged()
 
         val username = intent.getStringExtra(EXTRA_USERNAME)!!
-
 
 //        username.let { updateuserRepos(it) }
 
@@ -63,8 +62,6 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     fun updateRepoList(username: String) {
-
-
 //        repoAdapter.setOnItemClickCallback(object : RepoAdapter.OnItemClickCallback {
 //            override fun onItemClicked(data: Repo) {
 //                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))

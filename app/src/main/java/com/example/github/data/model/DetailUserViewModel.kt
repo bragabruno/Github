@@ -1,13 +1,10 @@
-package com.example.github.ui.detail
+package com.example.github.data.model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.github.api.RetrofitClient
-import com.example.github.data.model.DetailUserResponse
-import com.example.github.data.model.Repo
-import com.example.github.data.model.RepoResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

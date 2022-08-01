@@ -6,11 +6,20 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.github.adapter.UserAdapter
+import com.example.github.data.model.MainViewModel
 import com.example.github.data.model.User
 import com.example.github.databinding.ActivityMainBinding
 import com.example.github.ui.detail.DetailUserActivity
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import kotlin.concurrent.thread
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: MainViewModel
@@ -33,7 +42,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            MainViewModel::class.java
+        )
 
         binding.apply {
             rvUser.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -45,6 +56,7 @@ class MainActivity : AppCompatActivity() {
             }
             etQuery.doAfterTextChanged {
                 searchUser()
+                Timber.d("onCreate: doAfterTextChanged")
             }
 
 //            etQuery.setOnKeyListener() { v, keyCode, event ->
@@ -61,9 +73,27 @@ class MainActivity : AppCompatActivity() {
                 showLoading(false)
             }
         })
+        Timber.d("onCreate: Inside MainActivity")
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            Timber.d("onCreate: Inside launch IO")
+        }
+        thread {
+            Timber.d("onCreate: Inside thread!")
+        }
+    }
+
+    private fun initRecyclerView() {
+        binding.rvUser.layoutManager = LinearLayoutManager(this)
+
+        binding.rvUser.adapter =
+
+
+
     }
 
     private fun searchUser() {
+        Timber.d("MainActivity: fun searchUser()")
         binding.apply {
             val query = etQuery.text.toString()
             if (query.isEmpty()) return

@@ -1,15 +1,13 @@
-package com.example.github.ui.main
+package com.example.github.data.model
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.github.api.RetrofitClient
-import com.example.github.data.model.User
-import com.example.github.data.model.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class MainViewModel : ViewModel() {
 
@@ -25,11 +23,11 @@ class MainViewModel : ViewModel() {
                 ) {
                     if (response.isSuccessful) {
                         listUsers.postValue(response.body()?.items)
+                        Timber.d("Successful User Search Response!")
                     }
                 }
-
                 override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    Log.d("Failure", t.message.toString())
+                    Timber.d("Failure", t.message.toString())
                 }
             })
     }
